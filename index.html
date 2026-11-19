@@ -3,459 +3,1083 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>兒童遊戲場安全管理與規範指南</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome 圖示 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <title>不同客群的需求與行銷訴求｜校園咖啡店互動簡報</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap');
-    body {
-      font-family: 'Noto Sans TC', sans-serif;
+    /* ==========================================================================
+       全域視覺變數：米白底、深綠文字、綠色按鈕、淡黃提示框、白色圓角卡片
+       ========================================================================== */
+    :root {
+      --bg-cream: #F7F5EE;
+      --card-white: #FFFFFF;
+      --text-dark-green: #1E3A2F;
+      --text-muted: #4A6658;
+      --btn-green: #2E6F4E;
+      --btn-green-hover: #22563C;
+      --btn-secondary-bg: #E9F1EC;
+      --btn-secondary-hover: #D8E7DF;
+      --border-soft: #E2DDD0;
+      --border-selected: #2E6F4E;
+      --hint-bg: #FFF9DF;
+      --hint-border: #E8CF78;
+      --hint-text: #5B4712;
+      --success-bg: #EAF6EE;
+      --success-border: #8CC9A4;
+      --error-bg: #FDF1F0;
+      --error-border: #E2A5A0;
+      --shadow-card: 0 6px 20px rgba(30, 58, 47, 0.06);
+      --shadow-hover: 0 10px 26px rgba(30, 58, 47, 0.12);
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-pill: 999px;
+      --focus-ring: 3px solid #2E6F4E;
     }
-    .tab-content {
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-cream);
+      color: var(--text-dark-green);
+      font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 鍵盤 Tab 焦點框線：清楚可見 */
+    :focus-visible {
+      outline: var(--focus-ring);
+      outline-offset: 3px;
+    }
+
+    /* 主版面容器 */
+    .app-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 24px 20px 32px;
+    }
+
+    /* 頂部進度列與頁次 */
+    .top-bar {
+      background: var(--card-white);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 24px;
+    }
+
+    .top-bar-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .deck-brand {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    .page-indicator {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--btn-green);
+      background: var(--btn-secondary-bg);
+      padding: 4px 14px;
+      border-radius: var(--radius-pill);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: #EAE6DA;
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 33.33%;
+      background: var(--btn-green);
+      border-radius: var(--radius-pill);
+      transition: width 0.3s ease;
+    }
+
+    /* 簡報主內容區（一次僅顯示一頁） */
+    .slide-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide {
       display: none;
+      animation: fadeIn 0.25s ease;
     }
-    .tab-content.active {
+
+    .slide.is-active {
       display: block;
-      animation: fadeIn 0.3s ease-in-out;
     }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* 標題與導言區（適合課堂上台講解的大字距與留白） */
+    .slide-header {
+      margin-bottom: 24px;
+    }
+
+    .slide-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .slide-eyebrow {
+      display: inline-block;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--btn-green);
+      background: var(--btn-secondary-bg);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 10px;
+    }
+
+    .slide-title {
+      margin: 0 0 10px;
+      font-size: clamp(1.75rem, 3.2vw, 2.35rem);
+      line-height: 1.3;
+      color: var(--text-dark-green);
+    }
+
+    .slide-lead {
+      margin: 0;
+      font-size: clamp(1.08rem, 1.8vw, 1.24rem);
+      color: var(--text-muted);
+      max-width: 780px;
+    }
+
+    .highlight-quote {
+      display: inline-block;
+      color: var(--text-dark-green);
+      font-weight: 700;
+      border-bottom: 3px solid #CFE3D7;
+    }
+
+    /* ==========================================================================
+       第一頁：雙情境可點擊卡片
+       ========================================================================== */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 24px;
+    }
+
+    .scenario-card {
+      appearance: none;
+      width: 100%;
+      text-align: left;
+      background: var(--card-white);
+      border: 2px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 28px 26px;
+      cursor: pointer;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      color: inherit;
+      font-family: inherit;
+    }
+
+    .scenario-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--btn-green);
+    }
+
+    .scenario-card.is-selected {
+      border-color: var(--border-selected);
+      background: #F4FAF6;
+      box-shadow: 0 0 0 2px rgba(46, 111, 78, 0.18), var(--shadow-card);
+    }
+
+    .scenario-badge {
+      display: inline-block;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: var(--btn-green);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 12px;
+    }
+
+    .scenario-title {
+      margin: 0 0 10px;
+      font-size: 1.48rem;
+      line-height: 1.35;
+      color: var(--text-dark-green);
+    }
+
+    .scenario-desc {
+      margin: 0;
+      font-size: 1.08rem;
+      color: var(--text-muted);
+    }
+
+    .scenario-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--btn-green);
+      margin-top: 4px;
+    }
+
+    /* ==========================================================================
+       第二頁：目標客群 → 核心需求 → 對應行銷訴求 三段式卡片
+       ========================================================================== */
+    .switch-btn {
+      appearance: none;
+      background: var(--btn-secondary-bg);
+      color: var(--text-dark-green);
+      border: 2px solid var(--btn-green);
+      border-radius: var(--radius-pill);
+      padding: 11px 20px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      min-height: 46px;
+      transition: background-color 0.2s ease, transform 0.15s ease;
+    }
+
+    .switch-btn:hover {
+      background: var(--btn-secondary-hover);
+      transform: translateY(-1px);
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: stretch;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .flow-card {
+      background: var(--card-white);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 26px 22px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .flow-card.is-accent {
+      border: 2px solid var(--btn-green);
+      background: #F4FAF6;
+    }
+
+    .flow-step-tag {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--btn-green);
+      letter-spacing: 0.04em;
+      margin-bottom: 10px;
+    }
+
+    .flow-card-title {
+      margin: 0 0 14px;
+      font-size: 1.32rem;
+      color: var(--text-dark-green);
+    }
+
+    .flow-card-body {
+      margin: 0;
+      font-size: 1.15rem;
+      color: var(--text-dark-green);
+      line-height: 1.75;
+    }
+
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--btn-green);
+      user-select: none;
+    }
+
+    .presenter-note {
+      margin-top: 22px;
+      background: var(--hint-bg);
+      border: 1px solid var(--hint-border);
+      color: var(--hint-text);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      font-size: 1rem;
+    }
+
+    /* ==========================================================================
+       第三頁：隨堂測驗（單選卡片、提示框、完整解析）
+       ========================================================================== */
+    .quiz-box {
+      background: var(--card-white);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 28px 26px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .quiz-question {
+      margin: 0 0 22px;
+      font-size: clamp(1.22rem, 2.2vw, 1.48rem);
+      font-weight: 700;
+      line-height: 1.5;
+      color: var(--text-dark-green);
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .option-card {
+      appearance: none;
+      width: 100%;
+      text-align: left;
+      background: var(--card-white);
+      border: 2px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      min-height: 60px;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-family: inherit;
+      font-size: 1.1rem;
+      color: var(--text-dark-green);
+      transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .option-card:hover:not(:disabled) {
+      border-color: var(--btn-green);
+      background: #F9FCF9;
+    }
+
+    .option-card.is-selected {
+      border-color: var(--btn-green);
+      background: #EEF7F1;
+      box-shadow: 0 0 0 2px rgba(46, 111, 78, 0.16);
+    }
+
+    .option-card:disabled {
+      cursor: not-allowed;
+      opacity: 0.92;
+    }
+
+    .option-card.is-correct-reveal {
+      border-color: var(--btn-green);
+      background: var(--success-bg);
+    }
+
+    .option-card.is-wrong-reveal {
+      border-color: #C96B63;
+      background: var(--error-bg);
+    }
+
+    .option-key {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--btn-green);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--btn-green);
+      background: #FFFFFF;
+      margin-top: 1px;
+    }
+
+    .option-card.is-selected .option-key {
+      background: var(--btn-green);
+      color: #FFFFFF;
+    }
+
+    .quiz-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* 按鈕樣式 */
+    .btn {
+      appearance: none;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 12px 24px;
+      min-height: 48px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.15s ease;
+    }
+
+    .btn-primary {
+      background: var(--btn-green);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--btn-green-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--btn-secondary-bg);
+      color: var(--text-dark-green);
+      border: 1px solid #C5DACD;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--btn-secondary-hover);
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* 回饋區域（淡黃提示框 / 完整解析框） */
+    .feedback-area {
+      margin-top: 22px;
+    }
+
+    .feedback-hint {
+      background: var(--hint-bg);
+      border: 2px solid var(--hint-border);
+      color: var(--hint-text);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+    }
+
+    .feedback-explain {
+      background: var(--success-bg);
+      border: 2px solid var(--success-border);
+      color: var(--text-dark-green);
+      border-radius: var(--radius-md);
+      padding: 22px 24px;
+    }
+
+    .feedback-title {
+      margin: 0 0 8px;
+      font-size: 1.18rem;
+      font-weight: 700;
+    }
+
+    .feedback-text {
+      margin: 0;
+      font-size: 1.08rem;
+    }
+
+    .explain-list {
+      margin: 14px 0 0;
+      padding-left: 20px;
+    }
+
+    .explain-list li {
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+    }
+
+    .explain-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ==========================================================================
+       底部導覽列（上一頁 / 下一頁 / 鍵盤提示）
+       ========================================================================== */
+    .bottom-nav {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border-soft);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .nav-hint {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    /* ==========================================================================
+       手機與窄螢幕響應式調整（上下垂直排列）
+       ========================================================================== */
+    @media (max-width: 768px) {
+      .app-shell {
+        padding: 14px 14px 26px;
+      }
+
+      .scenario-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .flow-arrow {
+        transform: rotate(90deg);
+        padding: 2px 0;
+      }
+
+      .quiz-box {
+        padding: 20px 16px;
+      }
+
+      .bottom-nav {
+        flex-direction: column-reverse;
+        align-items: stretch;
+      }
+
+      .nav-buttons {
+        width: 100%;
+      }
+
+      .nav-buttons .btn {
+        flex: 1;
+      }
+
+      .nav-hint {
+        text-align: center;
+      }
+    }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white">
-
-  <!-- 頂端操作列 -->
-  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow">
-          <i class="fa-solid fa-shapes text-xl"></i>
-        </div>
-        <div>
-          <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">兒童遊戲場安全管理系統</h1>
-          <p class="text-xs text-slate-500 hidden sm:block">CNS 標準規範・鋪面維護・自主檢查表實務導覽</p>
-        </div>
+<body>
+  <div class="app-shell">
+    <!-- 頂部進度條與頁次指示 -->
+    <header class="top-bar" aria-label="簡報進度">
+      <div class="top-bar-row">
+        <div class="deck-brand">行銷入門三分鐘｜不同客群的需求與行銷訴求</div>
+        <div id="pageIndicator" class="page-indicator" aria-live="polite">第 1 / 3 頁・請選擇情境</div>
       </div>
-      <div class="flex items-center space-x-2">
-        <button onclick="copySourceCode()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg text-xs font-semibold transition border border-blue-200">
-          <i class="fa-regular fa-copy"></i>
-          <span id="copyBtnText">複製網頁原始碼</span>
-        </button>
+      <div class="progress-track" role="progressbar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" id="progressTrack">
+        <div class="progress-fill" id="progressFill"></div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <!-- Hero 區域 -->
-  <section class="bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 text-white py-12 px-4 sm:px-6">
-    <div class="max-w-5xl mx-auto text-center space-y-4">
-      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded-full text-xs font-semibold tracking-wider uppercase">
-        教育單位研習專用教材
-      </span>
-      <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight">兒童遊戲場安全管理規範與實務操作</h2>
-      <p class="text-sm sm:text-base text-slate-300 max-w-3xl mx-auto leading-relaxed">
-        涵蓋衛生福利部與內政部法規管理歷程、CNS 國家標準要求、一體化與鬆填式鋪面特性剖析，以及管理人員日常維護檢查實務指南。
-      </p>
-    </div>
-  </section>
+    <main class="slide-stage">
+      <!-- ====================================================================
+           第一頁：選擇探索情境（雙分支入口卡片）
+           ==================================================================== -->
+      <section id="slide-1" class="slide is-active" aria-labelledby="slide1-title">
+        <div class="slide-header">
+          <span class="slide-eyebrow">步驟 1｜鎖定目標客群</span>
+          <h1 id="slide1-title" class="slide-title">校園咖啡店即將開幕，要先吸引誰？</h1>
+          <p class="slide-lead">
+            店長原本想用<span class="highlight-quote">「我們的咖啡很好喝」</span>吸引所有人，但行銷的第一步不是急著喊口號，而是先鎖定目標客群。請點擊下方任一張卡片，進入對應的情境解析：
+          </p>
+        </div>
 
-  <!-- 主要分頁導覽列 (Tabs Header) -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-    <nav class="flex space-x-2 overflow-x-auto pb-2 border-b border-slate-200 text-sm font-medium">
-      <button onclick="switchTab('tab-overview')" id="btn-tab-overview" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap transition bg-blue-600 text-white font-semibold shadow-sm">
-        <i class="fa-solid fa-landmark mr-1.5"></i>管理法規與歷程
-      </button>
-      <button onclick="switchTab('tab-cns')" id="btn-tab-cns" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap transition text-slate-600 hover:bg-slate-100">
-        <i class="fa-solid fa-ruler-combined mr-1.5"></i>CNS 國家標準規範
-      </button>
-      <button onclick="switchTab('tab-surfacing')" id="btn-tab-surfacing" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap transition text-slate-600 hover:bg-slate-100">
-        <i class="fa-solid fa-layer-group mr-1.5"></i>鋪面材料特性與比較
-      </button>
-      <button onclick="switchTab('tab-inspection')" id="btn-tab-inspection" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap transition text-slate-600 hover:bg-slate-100">
-        <i class="fa-solid fa-clipboard-check mr-1.5"></i>自主檢查表與保養
-      </button>
-      <button onclick="switchTab('tab-inflatable')" id="btn-tab-inflatable" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap transition text-slate-600 hover:bg-slate-100">
-        <i class="fa-solid fa-wind mr-1.5"></i>充氣式及非固定式設施
-      </button>
-    </nav>
+        <div class="scenario-grid" id="scenarioCardsContainer">
+          <!-- 由 JavaScript 依據設定物件動態產生兩張情境卡片 -->
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           第二頁：對應情境的需求解析（目標客群 → 核心需求 → 對應行銷訴求）
+           ==================================================================== -->
+      <section id="slide-2" class="slide" aria-labelledby="slide2-title">
+        <div class="slide-header slide-header-flex">
+          <div>
+            <span class="slide-eyebrow" id="slide2-eyebrow">步驟 2｜需求解析</span>
+            <h1 id="slide2-title" class="slide-title">先選對象，再決定訴求</h1>
+            <p class="slide-lead" id="slide2-subtitle"></p>
+          </div>
+          <button type="button" id="switchScenarioBtn" class="switch-btn">
+            切換至另一情境
+          </button>
+        </div>
+
+        <div class="flow-grid" id="analysisFlowContainer">
+          <!-- 由 JavaScript 依據目前情境動態渲染三段式卡片 -->
+        </div>
+
+        <div class="presenter-note" id="presenterNote">
+          <strong>講解小提醒：</strong>點擊右上角按鈕即可立即切換 A / B 情境，現場對比「趕時間」與「久坐討論」兩種客群截然不同的行銷切入點。
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           第三頁：對應情境的隨堂測驗（單選互動、提示階段與完整解答）
+           ==================================================================== -->
+      <section id="slide-3" class="slide" aria-labelledby="slide3-title">
+        <div class="slide-header">
+          <span class="slide-eyebrow" id="slide3-eyebrow">步驟 3｜隨堂測驗</span>
+          <h1 id="slide3-title" class="slide-title">換你替店長做決定</h1>
+          <p class="slide-lead" id="slide3-subtitle"></p>
+        </div>
+
+        <div class="quiz-box">
+          <p class="quiz-question" id="quizQuestion"></p>
+
+          <div class="options-list" id="quizOptions" role="radiogroup" aria-labelledby="quizQuestion">
+            <!-- 由 JavaScript 依據目前情境動態渲染選項卡片 -->
+          </div>
+
+          <div class="quiz-actions">
+            <button type="button" id="submitQuizBtn" class="btn btn-primary" disabled>送出答案</button>
+            <button type="button" id="resetQuizBtn" class="btn btn-secondary" style="display: none;">重新作答</button>
+            <button type="button" id="revealAnswerBtn" class="btn btn-secondary" style="display: none;">查看完整解答</button>
+          </div>
+
+          <div id="quizFeedback" class="feedback-area" aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 底部翻頁導覽 -->
+    <footer class="bottom-nav" aria-label="簡報翻頁控制">
+      <div class="nav-hint">支援鍵盤 <strong>←</strong> / <strong>→</strong> 方向鍵翻頁（首尾頁不循環）</div>
+      <div class="nav-buttons">
+        <button type="button" id="prevBtn" class="btn btn-secondary" disabled>← 上一頁</button>
+        <button type="button" id="nextBtn" class="btn btn-primary" disabled>下一頁 →</button>
+      </div>
+    </footer>
   </div>
 
-  <!-- 分頁內容區 -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
-    <!-- TAB 1: 管理法規與歷程 -->
-    <div id="tab-overview" class="tab-content active space-y-8">
-      <!-- 歷程圖示卡片 -->
-      <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
-        <h3 class="text-xl font-bold text-slate-900 flex items-center">
-          <i class="fa-solid fa-arrows-spin text-blue-600 mr-2"></i>兒童遊戲場安全管理歷程四部曲
-        </h3>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
-            <span class="inline-block px-2.5 py-1 bg-blue-600 text-white text-xs font-bold rounded mb-2">步驟 1</span>
-            <h4 class="font-bold text-slate-800 text-base">備查</h4>
-            <p class="text-xs text-slate-500 mt-1">設置前檢齊基本資料、合格保證書與檢驗報告陳報主管機關。</p>
-          </div>
-          <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
-            <span class="inline-block px-2.5 py-1 bg-emerald-600 text-white text-xs font-bold rounded mb-2">步驟 2</span>
-            <h4 class="font-bold text-slate-800 text-base">自主檢查</h4>
-            <p class="text-xs text-slate-500 mt-1">管理人員每日目測、每月填報自主檢查表並保存 6 年[cite: 2]。</p>
-          </div>
-          <div class="p-4 bg-amber-50 rounded-xl border border-amber-100">
-            <span class="inline-block px-2.5 py-1 bg-amber-600 text-white text-xs font-bold rounded mb-2">步驟 3</span>
-            <h4 class="font-bold text-slate-800 text-base">定期檢驗</h4>
-            <p class="text-xs text-slate-500 mt-1">委託認證檢驗機構，鋪面每 3 年、室內遊具每 6 年、室外遊具每 3 年定檢[cite: 2]。</p>
-          </div>
-          <div class="p-4 bg-purple-50 rounded-xl border border-purple-100">
-            <span class="inline-block px-2.5 py-1 bg-purple-600 text-white text-xs font-bold rounded mb-2">步驟 4</span>
-            <h4 class="font-bold text-slate-800 text-base">稽查</h4>
-            <p class="text-xs text-slate-500 mt-1">主管機關會同建管、消防、衛生等單位辦理定期與聯合稽查[cite: 2]。</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 主管機關與權責歸屬 -->
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
-          <h4 class="text-lg font-bold text-slate-900 border-l-4 border-blue-600 pl-3">場域主管機關劃分</h4>
-          <ul class="space-y-2 text-sm text-slate-600 divide-y divide-slate-100">
-            <li class="pt-2"><strong>營建主管機關：</strong>公園、綠地、廣場附設兒童遊戲場[cite: 2]。</li>
-            <li class="pt-2"><strong>教育主管機關：</strong>公私立教保機構、幼兒園、學校及社教機構[cite: 2]。</li>
-            <li class="pt-2"><strong>文化主管機關：</strong>文化館舍、美術館、生活美學館及表演場館[cite: 2]。</li>
-            <li class="pt-2"><strong>商業／經發機關：</strong>百貨公司、大賣場、商場及專營遊樂場[cite: 2]。</li>
-            <li class="pt-2"><strong>社政／衛生機關：</strong>社會福利機構、餐飲業、醫療院所附設遊戲場[cite: 2]。</li>
-          </ul>
-        </div>
-
-        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
-          <h4 class="text-lg font-bold text-slate-900 border-l-4 border-amber-600 pl-3">排除適用之設備類別（非公共遊具）</h4>
-          <div class="grid grid-cols-2 gap-3 text-xs text-slate-700">
-            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
-              <i class="fa-solid fa-ban text-red-500 mr-1"></i><strong>家庭遊戲設備</strong><br/>僅限家庭個人使用，非供公共公眾使用[cite: 2]。
-            </div>
-            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
-              <i class="fa-solid fa-ban text-red-500 mr-1"></i><strong>機械動力遊樂設施</strong><br/>旋轉木馬、摩天輪等（屬機械遊樂設施規範）[cite: 2]。
-            </div>
-            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
-              <i class="fa-solid fa-ban text-red-500 mr-1"></i><strong>戲水設施與裝置</strong><br/>水上滑梯、噴水水池及游泳水上器材[cite: 2]。
-            </div>
-            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
-              <i class="fa-solid fa-ban text-red-500 mr-1"></i><strong>12歲以上健身器材</strong><br/>公園體健設備、單槓、高低槓及成人跑步機[cite: 2]。
-            </div>
-          </div>
-          <div class="p-3 bg-blue-50 text-blue-900 rounded-lg text-xs leading-relaxed border border-blue-200">
-            <strong>核心適用對象：</strong>無動力固定於兒童遊戲場，供 <strong>2 歲至 12 歲</strong> 兒童使用之非機械式遊樂設施[cite: 2]。
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 2: CNS 國家標準規範 -->
-    <div id="tab-cns" class="tab-content space-y-8">
-      <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
-        <h3 class="text-xl font-bold text-slate-900 flex items-center">
-          <i class="fa-solid fa-book-bookmark text-blue-600 mr-2"></i>核心 CNS 國家標準體系架構
-        </h3>
-        <div class="grid md:grid-cols-3 gap-6">
-          <div class="border border-slate-200 rounded-xl p-5 hover:border-blue-400 transition bg-slate-50/50">
-            <span class="text-xs font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded">CNS 12642:2022</span>
-            <h4 class="font-bold text-slate-800 text-base mt-2">公共兒童遊戲場設備</h4>
-            <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-              規定無動力固定設備之結構安全性、年齡分級（2~6歲、5~12歲）、卡陷防止、突出物及防護淨空區域等[cite: 2]。
-            </p>
-          </div>
-          <div class="border border-slate-200 rounded-xl p-5 hover:border-blue-400 transition bg-slate-50/50">
-            <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">CNS 12643-1 & -2:2021</span>
-            <h4 class="font-bold text-slate-800 text-base mt-2">鋪面材料衝擊衰減性能試驗</h4>
-            <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-              第1部為實驗室試驗法；第2部為現場試驗法[cite: 2]。評估重大頭部傷害指標（HIC）及最大加速度（g-max）與臨界墜落高度[cite: 2]。
-            </p>
-          </div>
-          <div class="border border-slate-200 rounded-xl p-5 hover:border-blue-400 transition bg-slate-50/50">
-            <span class="text-xs font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded">CNS 15912 / 15913</span>
-            <h4 class="font-bold text-slate-800 text-base mt-2">攀爬網與軟質封閉設備</h4>
-            <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-              CNS 15912 適用於繩網與編織網（強調「鋼纜索不是繩」）；CNS 15913 規範室內軟質球池與淘氣堡之防火與防窒息[cite: 2]。
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 空間尺度與安全要求 -->
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
-          <h4 class="text-lg font-bold text-slate-900 border-l-4 border-blue-600 pl-3">空間尺度與使用區規定 (Use Zone)</h4>
-          <div class="space-y-3 text-xs sm:text-sm text-slate-600 leading-relaxed">
-            <div class="p-3 bg-slate-50 rounded-lg">
-              <strong class="text-slate-900">使用區延伸距離：</strong>固定式遊戲設備自結構外緣向外延伸，均<strong>不得小於 1,830 mm</strong>（但地面型互動板、沙坑等保持地面接觸者除外）[cite: 2]。
-            </div>
-            <div class="p-3 bg-slate-50 rounded-lg">
-              <strong class="text-slate-900">頂上障礙物淨空區：</strong>非結構物之障礙物（如上方樹枝），與指定遊戲面、使用區上方距離<strong>均應不小於 2,130 mm</strong>[cite: 2]。
-            </div>
-            <div class="p-3 bg-slate-50 rounded-lg">
-              <strong class="text-slate-900">鞦韆樞軸點規範：</strong>障礙物不得在鞦韆鋪面上方 <code>(X + 1,060) mm</code> 範圍內，其中 X 為樞軸點至防護鋪面之垂直距離[cite: 2]。
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
-          <h4 class="text-lg font-bold text-slate-900 border-l-4 border-red-500 pl-3">危險卡陷與檢驗工具 (CNS 12642 第6章)</h4>
-          <div class="grid grid-cols-2 gap-2 text-xs">
-            <div class="p-2.5 bg-red-50 text-red-900 rounded-lg"><strong>頭頸部卡陷：</strong>開口能穿過軀幹探測器但卡住頭部探測器[cite: 2]。</div>
-            <div class="p-2.5 bg-red-50 text-red-900 rounded-lg"><strong>突出點與纏結：</strong>衣領帶或項圈鉤掛造成勒頸窒息[cite: 2]。</div>
-            <div class="p-2.5 bg-red-50 text-red-900 rounded-lg"><strong>夾剪點與擠壓：</strong>移動部件間隙在 8mm~25mm 之間致手指夾傷[cite: 2]。</div>
-            <div class="p-2.5 bg-red-50 text-red-900 rounded-lg"><strong>懸吊危險：</strong>活動繩索端頭未固定或垂掛形成套索危險[cite: 2]。</div>
-          </div>
-          <div class="text-xs text-slate-500">
-            <strong>核心檢驗儀器：</strong>頭部探測器、軀幹探測器、突出物測試規、半侷限開口探測器及衝擊加速度測定儀[cite: 2]。
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 3: 鋪面材料特性與比較 -->
-    <div id="tab-surfacing" class="tab-content space-y-8">
-      <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
-        <h3 class="text-xl font-bold text-slate-900 flex items-center">
-          <i class="fa-solid fa-table-cells text-blue-600 mr-2"></i>防護鋪面兩大類別特性與施工比較
-        </h3>
-        
-        <div class="grid md:grid-cols-2 gap-6">
-          <!-- 一體化鋪面 -->
-          <div class="border-2 border-blue-100 rounded-2xl p-5 bg-blue-50/30 space-y-4">
-            <div class="flex items-center justify-between">
-              <h4 class="font-bold text-blue-900 text-lg">一體化鋪面 (Unitary Surface)</h4>
-              <span class="px-2.5 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">平整無縫</span>
-            </div>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              由一個或多個材料組分的柔性表層結合而成，形成連續表面[cite: 2]。包含<strong>橡膠地墊、現澆無縫 EPDM 橡膠軟鋪、人工草毯</strong>[cite: 2]。
-            </p>
-            <div class="space-y-2 text-xs text-slate-700">
-              <div class="p-2.5 bg-white rounded border border-blue-100">
-                <strong>優勢：</strong>輪椅推進順暢、易清潔維護、外觀色彩多樣化且無異物埋藏隱憂[cite: 2]。
-              </div>
-              <div class="p-2.5 bg-white rounded border border-blue-100">
-                <strong>施工與保養注意：</strong>傳統回收橡膠墊<strong>不適合室內</strong>；水泥基底需有洩水坡度並整平，定期清潔青苔以防濕滑[cite: 2]。
-              </div>
-            </div>
-          </div>
-
-          <!-- 鬆填式鋪面 -->
-          <div class="border-2 border-emerald-100 rounded-2xl p-5 bg-emerald-50/30 space-y-4">
-            <div class="flex items-center justify-between">
-              <h4 class="font-bold text-emerald-900 text-lg">鬆填式鋪面 (Loose-fill Surface)</h4>
-              <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-xs font-semibold rounded-full">天然透水</span>
-            </div>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              由小而獨立、可移動之柔性表層組成[cite: 2]。包含<strong>水洗礫石、細砂、木屑、松樹皮、碎橡膠粒</strong>[cite: 2]。
-            </p>
-            <div class="space-y-2 text-xs text-slate-700">
-              <div class="p-2.5 bg-white rounded border border-emerald-100">
-                <strong>重要基礎原則：</strong>底部應為<strong>「自然透水層」</strong>，嚴禁設置於不透水的硬質混凝土底層[cite: 2]！
-              </div>
-              <div class="p-2.5 bg-white rounded border border-emerald-100">
-                <strong>材料要求與保養：</strong>礫石應為外形圓潤之豌豆型（非尖銳碎石/鵝卵石）[cite: 2]；需定期翻攪耙平、補充流失厚度，並防範動物進入排泄[cite: 2]。
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 鋪面深度與臨界跌落高度 (CPSC 參考表) -->
-        <div class="overflow-x-auto mt-6">
-          <table class="w-full text-xs text-left border-collapse border border-slate-200 rounded-lg overflow-hidden">
-            <thead class="bg-slate-100 text-slate-700 uppercase font-semibold">
-              <tr>
-                <th class="p-3 border border-slate-200">材料種類</th>
-                <th class="p-3 border border-slate-200">152mm (6") 未壓縮</th>
-                <th class="p-3 border border-slate-200">228mm (9") 未壓縮</th>
-                <th class="p-3 border border-slate-200">304mm (12") 未壓縮</th>
-                <th class="p-3 border border-slate-200">壓縮後 228mm</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-200 text-slate-600">
-              <tr class="hover:bg-slate-50">
-                <td class="p-3 font-medium text-slate-800 border">木屑 (Wood Mulch)</td>
-                <td class="p-3 border">2.1 m (7')</td>
-                <td class="p-3 border">3.0 m (10')</td>
-                <td class="p-3 border">3.4 m (11')</td>
-                <td class="p-3 border">3.0 m (10')</td>
-              </tr>
-              <tr class="hover:bg-slate-50">
-                <td class="p-3 font-medium text-slate-800 border">雙層松樹皮 (Bark Mulch)</td>
-                <td class="p-3 border">1.8 m (6')</td>
-                <td class="p-3 border">3.0 m (10')</td>
-                <td class="p-3 border">3.4 m (11')</td>
-                <td class="p-3 border">2.1 m (7')</td>
-              </tr>
-              <tr class="hover:bg-slate-50">
-                <td class="p-3 font-medium text-slate-800 border">細砂 (Fine Sand)</td>
-                <td class="p-3 border">1.5 m (5')</td>
-                <td class="p-3 border">1.5 m (5')</td>
-                <td class="p-3 border">2.7 m (9')</td>
-                <td class="p-3 border">1.5 m (5')</td>
-              </tr>
-              <tr class="hover:bg-slate-50">
-                <td class="p-3 font-medium text-slate-800 border">細礫石 (Fine Gravel)</td>
-                <td class="p-3 border">1.8 m (6')</td>
-                <td class="p-3 border">2.1 m (7')</td>
-                <td class="p-3 border">3.0 m (10')</td>
-                <td class="p-3 border">1.8 m (6')</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 4: 自主檢查表與日常保養 -->
-    <div id="tab-inspection" class="tab-content space-y-8">
-      <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
-          <div>
-            <h3 class="text-xl font-bold text-slate-900">兒童遊戲場設施自主檢查作業指引 (附表二)</h3>
-            <p class="text-xs text-slate-500 mt-1">管理人員每日目測、每月依表詳查，表格應存放管理單位妥善保存 6 年[cite: 2]。</p>
-          </div>
-          <span class="inline-flex items-center px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-semibold">
-            <i class="fa-solid fa-triangle-exclamation mr-1.5"></i>第 16、17 項為反向題[cite: 2]
-          </span>
-        </div>
-
-        <div class="space-y-3">
-          <div class="grid sm:grid-cols-2 gap-3 text-xs">
-            <div class="p-3 bg-slate-50 border rounded-lg">
-              <strong class="text-slate-900">1. 告示牌與緊急機制：</strong>告示牌需載明年齡限制與緊急通報電話，無損壞文字清晰[cite: 2]。
-            </div>
-            <div class="p-3 bg-slate-50 border rounded-lg">
-              <strong class="text-slate-900">2. 環境衛生與安全死角：</strong>光線充足通風，擺盪範圍內不得有障礙物，室內備妥有效期限內急救包[cite: 2]。
-            </div>
-            <div class="p-3 bg-slate-50 border rounded-lg">
-              <strong class="text-slate-900">3. 基礎與金屬組件：</strong>地樁無外露鬆動、無脫漆銹蝕、螺栓扣件無遺漏，軸承具適當潤滑無異音[cite: 2]。
-            </div>
-            <div class="p-3 bg-slate-50 border rounded-lg">
-              <strong class="text-slate-900">4. 排水與積水預防：</strong>平台、梯面、溜滑梯末端滑出段、輪胎底槽不得有積水與髒亂[cite: 2]。
-            </div>
-          </div>
-        </div>
-
-        <!-- 漂白水消毒專題 -->
-        <div class="bg-slate-900 text-slate-100 rounded-xl p-5 space-y-3">
-          <h4 class="font-bold text-amber-400 text-sm flex items-center">
-            <i class="fa-solid fa-spray-can-sparkles mr-2"></i>消毒作業規範 (500 ppm / 1,000 ppm 配製方法)
-          </h4>
-          <div class="grid sm:grid-cols-3 gap-4 text-xs text-slate-300">
-            <div class="bg-slate-800/80 p-3 rounded border border-slate-700">
-              <span class="font-bold text-white">濃度標準</span><br/>
-              常態預防腸病毒：500 ppm (0.05%)<br/>
-              應對重大疫情防治：1,000 ppm (0.1%)[cite: 2]
-            </div>
-            <div class="bg-slate-800/80 p-3 rounded border border-slate-700">
-              <span class="font-bold text-white">配製比例 (市售5~6%漂白水)</span><br/>
-              500 ppm：10 c.c. 漂白水 + 1 公升清水<br/>
-              1,000 ppm：20 c.c. 漂白水 + 1 公升清水[cite: 2]
-            </div>
-            <div class="bg-slate-800/80 p-3 rounded border border-slate-700">
-              <span class="font-bold text-white">操作與保存注意事項</span><br/>
-              通風處配製並戴手套口罩；擦拭接觸需 >10 分鐘；配妥加蓋避光且 24 小時內用畢[cite: 2]。
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 5: 充氣式及非固定式設施 -->
-    <div id="tab-inflatable" class="tab-content space-y-8">
-      <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
-        <div class="border-l-4 border-indigo-600 pl-4">
-          <span class="text-xs uppercase tracking-widest text-slate-500 font-bold">Inflatable & Non-fixed Devices</span>
-          <h3 class="text-xl font-bold text-slate-900">充氣式遊樂設施及非固定式機械遊樂設施安全管理規範</h3>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-6">
-          <div class="space-y-4">
-            <div class="p-4 bg-indigo-50 border border-indigo-100 rounded-xl space-y-2">
-              <h4 class="font-bold text-indigo-900 text-sm">最低公共意外責任保險額度建議</h4>
-              <ul class="space-y-1 text-xs text-indigo-800">
-                <li>• 每一個人身體傷亡：新臺幣 <strong>600 萬元</strong>[cite: 2]</li>
-                <li>• 每一事故身體傷亡：新臺幣 <strong>3,000 萬元</strong>[cite: 2]</li>
-                <li>• 每一事故財產損失：新臺幣 <strong>300 萬元</strong>[cite: 2]</li>
-                <li>• 保險期間最高賠償額：新臺幣 <strong>6,600 萬元</strong>[cite: 2]</li>
-              </ul>
-            </div>
-
-            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2 text-xs text-slate-700">
-              <strong class="text-slate-900">告示牌揭示項目（實體至少 A1 尺寸）：</strong><br/>
-              年齡限制、身高體重限制、容納使用人數、緊急逃生路線圖、通報機制及備查日期公文字號[cite: 2]。
-            </div>
-          </div>
-
-          <div class="space-y-4">
-            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
-              <h4 class="font-bold text-slate-900 text-sm">管理人員必備專業資格 (符合之一)</h4>
-              <p class="text-xs text-slate-600 leading-relaxed">
-                機械或電機工程技師考試及格者；甲/乙種電匠考驗合格；或室內配線、工業配線、機電整合、升降機裝修等技術士技能檢定合格者[cite: 2]。
-              </p>
-            </div>
-
-            <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl space-y-2 text-xs text-amber-900">
-              <strong>定期檢驗頻率：</strong>相關法規或檢驗標準發布後，業者應<strong>每 6 個月</strong>委託認證檢驗機構檢查一次，報告至少<strong>保存 5 年</strong>[cite: 2]。
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- 頁尾 -->
-  <footer class="bg-slate-900 border-t border-slate-800 text-slate-400 py-8 text-center text-xs">
-    <div class="max-w-7xl mx-auto px-4 space-y-2">
-      <p>兒童遊戲場安全管理規範與實務操作指南 &copy; 2026</p>
-      <p class="text-slate-500">依據衛生福利部與內政部最新發布之兒童遊戲場安全管理規範彙整製作[cite: 2]</p>
-    </div>
-  </footer>
-
-  <!-- 分頁切換與複製功能 JavaScript -->
   <script>
-    function switchTab(tabId) {
-      // 隱藏所有 tab 內容
-      document.querySelectorAll('.tab-content').forEach(el => {
-        el.classList.remove('active');
-      });
-      // 移除所有按鈕 active 樣式
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.className = 'tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap transition text-slate-600 hover:bg-slate-100';
-      });
-
-      // 顯示目標 tab
-      const targetContent = document.getElementById(tabId);
-      if (targetContent) {
-        targetContent.classList.add('active');
+    /* ==========================================================================
+       【集中設定區】情境 A 與情境 B 的頁面文案、題目、選項、正解、解釋與提示
+       日後若需調整簡報文字或題庫，僅需修改此物件即可。
+       ========================================================================== */
+    const SCENARIO_CONFIG = {
+      A: {
+        id: "A",
+        label: "情境 A",
+        shortName: "趕著上早八的學生",
+        cardSummary: "痛點與需求是快速取餐、動線順暢與合適價格。",
+        slide2Subtitle: "目前檢視：情境 A（趕著上早八的學生）的行銷訴求推導。",
+        analysis: {
+          target: "趕著上早八的學生",
+          needs: "不想遲到、預算有限、拿了就走",
+          appeal: "強調手機預先點餐、到店 30 秒快速取餐、早鳥銅板組合價"
+        },
+        quiz: {
+          subtitle: "情境 A 專屬挑戰：試著站在早八學生的角度，挑出最精準的訴求。",
+          question: "咖啡店決定優先服務「趕著上早八的學生」，哪一項行銷訴求最貼近他們的需求？",
+          options: [
+            { key: "A", text: "提供舒適沙發座，適合整個下午慢慢聊天。" },
+            { key: "B", text: "手機預先點餐，到店免排隊 30 秒快速取餐。" },
+            { key: "C", text: "店內每個角落都有網美牆，非常適合拍照打卡。" }
+          ],
+          correctKey: "B",
+          explanations: {
+            A: "選 A 解析：舒適座位適合久留，反而無法滿足急著離開去上課的需求。",
+            B: "選 B 解析（正確）：快速取餐直接解決趕時間、怕遲到的核心痛點。",
+            C: "選 C 解析：拍照空間對趕時間的學生沒有實質幫助。"
+          },
+          hints: {
+            A: "「他現在需要坐下來停留，還是盡快離開去教室？」",
+            C: "「漂亮的拍照空間能幫他趕在鐘響前到教室嗎？」"
+          }
+        }
+      },
+      B: {
+        id: "B",
+        label: "情境 B",
+        shortName: "討論期末報告的學生",
+        cardSummary: "痛點與需求是充足座位、插座、穩定網路與適合交談的空間。",
+        slide2Subtitle: "目前檢視：情境 B（討論期末報告的學生）的行銷訴求推導。",
+        analysis: {
+          target: "討論報告的學生",
+          needs: "久坐討論、筆電充電、不怕吵到人",
+          appeal: "強調寬敞大桌、每席附設插座、不限時討論空間"
+        },
+        quiz: {
+          subtitle: "情境 B 專屬挑戰：試著站在小組討論報告的角度，挑出最精準的訴求。",
+          question: "咖啡店決定優先服務「需要討論報告的學生」，哪一項行銷訴求最貼近他們的需求？",
+          options: [
+            { key: "A", text: "主打外帶窗口，點完餐立刻帶走不佔位。" },
+            { key: "B", text: "店內全面禁止交談，打造絕對安靜的個人自習室。" },
+            { key: "C", text: "提供寬敞大桌、免費插座，以及可自由討論的空間。" }
+          ],
+          correctKey: "C",
+          explanations: {
+            A: "選 A 解析：外帶模式無法讓學生坐下來一起看資料、討論報告。",
+            B: "選 B 解析：禁止交談會讓需要互相溝通的報告小組無法進行討論。",
+            C: "選 C 解析（正確）：大桌、插座與可交談環境直接滿足小組討論報告的實際需求。"
+          },
+          hints: {
+            A: "「討論報告需要大家聚在一起看電腦，外帶方便嗎？」",
+            B: "「做小組報告時，組員之間需不需要互相開口溝通？」"
+          }
+        }
       }
+    };
 
-      // 設置當前按鈕高亮
-      const activeBtn = document.getElementById('btn-' + tabId);
-      if (activeBtn) {
-        activeBtn.className = 'tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap transition bg-blue-600 text-white font-semibold shadow-sm';
+    /* ==========================================================================
+       【狀態管理】
+       - 預設邏輯說明：第一頁尚未點選任何情境卡片時，currentScenario 為 null，
+         此時「下一頁」按鈕為停用狀態（避免未選情境即跳轉）；點選任一張情境卡片
+         會立即記錄情境並跳轉至第二頁。之後若返回第一頁，因已選過情境，「下一頁」
+         將保持啟用。
+       - 雙情境作答紀錄各自獨立儲存在記憶體中，不寫入 localStorage，重新整理即重設。
+       ========================================================================== */
+    const state = {
+      currentPage: 1, // 1, 2, 3
+      currentScenario: null, // null | "A" | "B"
+      quizState: {
+        A: { selectedKey: null, stage: "idle" }, // stage: "idle" | "hint" | "explained"
+        B: { selectedKey: null, stage: "idle" }
+      }
+    };
+
+    /* DOM 參照 */
+    const els = {
+      slides: [
+        document.getElementById("slide-1"),
+        document.getElementById("slide-2"),
+        document.getElementById("slide-3")
+      ],
+      pageIndicator: document.getElementById("pageIndicator"),
+      progressTrack: document.getElementById("progressTrack"),
+      progressFill: document.getElementById("progressFill"),
+      prevBtn: document.getElementById("prevBtn"),
+      nextBtn: document.getElementById("nextBtn"),
+
+      // 第一頁
+      scenarioCardsContainer: document.getElementById("scenarioCardsContainer"),
+
+      // 第二頁
+      slide2Eyebrow: document.getElementById("slide2-eyebrow"),
+      slide2Subtitle: document.getElementById("slide2-subtitle"),
+      switchScenarioBtn: document.getElementById("switchScenarioBtn"),
+      analysisFlowContainer: document.getElementById("analysisFlowContainer"),
+
+      // 第三頁
+      slide3Eyebrow: document.getElementById("slide3-eyebrow"),
+      slide3Subtitle: document.getElementById("slide3-subtitle"),
+      quizQuestion: document.getElementById("quizQuestion"),
+      quizOptions: document.getElementById("quizOptions"),
+      submitQuizBtn: document.getElementById("submitQuizBtn"),
+      resetQuizBtn: document.getElementById("resetQuizBtn"),
+      revealAnswerBtn: document.getElementById("revealAnswerBtn"),
+      quizFeedback: document.getElementById("quizFeedback")
+    };
+
+    /* ==========================================================================
+       渲染函式：第一頁（雙情境入口卡片）
+       ========================================================================== */
+    function renderSlide1() {
+      els.scenarioCardsContainer.innerHTML = "";
+
+      ["A", "B"].forEach((key) => {
+        const sc = SCENARIO_CONFIG[key];
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "scenario-card" + (state.currentScenario === key ? " is-selected" : "");
+        btn.setAttribute("aria-pressed", state.currentScenario === key ? "true" : "false");
+
+        btn.innerHTML = `
+          <div>
+            <span class="scenario-badge">${sc.label}</span>
+            <h2 class="scenario-title">${sc.shortName}</h2>
+            <p class="scenario-desc">${sc.cardSummary}</p>
+          </div>
+          <span class="scenario-cta">點擊進入${sc.label}解析 →</span>
+        `;
+
+        btn.addEventListener("click", () => {
+          state.currentScenario = key;
+          goToPage(2);
+        });
+
+        els.scenarioCardsContainer.appendChild(btn);
+      });
+    }
+
+    /* ==========================================================================
+       渲染函式：第二頁（三段式需求解析與情境切換）
+       ========================================================================== */
+    function renderSlide2() {
+      if (!state.currentScenario) return;
+      const sc = SCENARIO_CONFIG[state.currentScenario];
+      const otherKey = state.currentScenario === "A" ? "B" : "A";
+      const otherSc = SCENARIO_CONFIG[otherKey];
+
+      els.slide2Eyebrow.textContent = `步驟 2｜${sc.label} 需求解析`;
+      els.slide2Subtitle.textContent = sc.slide2Subtitle;
+      els.switchScenarioBtn.textContent = `切換至 ${otherSc.label}（${otherSc.shortName}）`;
+
+      els.analysisFlowContainer.innerHTML = `
+        <article class="flow-card">
+          <div class="flow-step-tag">01｜目標客群</div>
+          <h2 class="flow-card-title">我們想服務誰？</h2>
+          <p class="flow-card-body">${sc.analysis.target}</p>
+        </article>
+
+        <div class="flow-arrow" aria-hidden="true">→</div>
+
+        <article class="flow-card">
+          <div class="flow-step-tag">02｜核心需求</div>
+          <h2 class="flow-card-title">他們最在意什麼？</h2>
+          <p class="flow-card-body">${sc.analysis.needs}</p>
+        </article>
+
+        <div class="flow-arrow" aria-hidden="true">→</div>
+
+        <article class="flow-card is-accent">
+          <div class="flow-step-tag">03｜對應行銷訴求</div>
+          <h2 class="flow-card-title">咖啡店該怎麼溝通？</h2>
+          <p class="flow-card-body">${sc.analysis.appeal}</p>
+        </article>
+      `;
+    }
+
+    /* ==========================================================================
+       渲染函式：第三頁（對應情境隨堂測驗、提示階段與完整解答）
+       ========================================================================== */
+    function renderSlide3() {
+      if (!state.currentScenario) return;
+      const sc = SCENARIO_CONFIG[state.currentScenario];
+      const qData = sc.quiz;
+      const qState = state.quizState[state.currentScenario];
+      const isLocked = qState.stage !== "idle";
+
+      els.slide3Eyebrow.textContent = `步驟 3｜${sc.label} 隨堂測驗`;
+      els.slide3Subtitle.textContent = qData.subtitle;
+      els.quizQuestion.textContent = qData.question;
+
+      // 渲染選項卡片
+      els.quizOptions.innerHTML = "";
+      qData.options.forEach((opt) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "option-card";
+        btn.setAttribute("role", "radio");
+        btn.setAttribute("aria-checked", qState.selectedKey === opt.key ? "true" : "false");
+
+        if (qState.selectedKey === opt.key) {
+          btn.classList.add("is-selected");
+        }
+
+        // 僅在「完整解答階段」標示正解或誤選樣式；提示階段不提前標示正解
+        if (qState.stage === "explained") {
+          if (opt.key === qData.correctKey) {
+            btn.classList.add("is-correct-reveal");
+          } else if (opt.key === qState.selectedKey) {
+            btn.classList.add("is-wrong-reveal");
+          }
+        }
+
+        btn.disabled = isLocked;
+
+        btn.innerHTML = `
+          <span class="option-key">${opt.key}</span>
+          <span>${opt.text}</span>
+        `;
+
+        btn.addEventListener("click", () => {
+          if (qState.stage !== "idle") return;
+          qState.selectedKey = opt.key;
+          renderSlide3();
+        });
+
+        els.quizOptions.appendChild(btn);
+      });
+
+      // 控制送出 / 重新作答 / 查看完整解答按鈕顯示狀態
+      els.submitQuizBtn.disabled = !qState.selectedKey || isLocked;
+      els.submitQuizBtn.style.display = isLocked ? "none" : "inline-block";
+      els.resetQuizBtn.style.display = isLocked ? "inline-block" : "none";
+      els.revealAnswerBtn.style.display = qState.stage === "hint" ? "inline-block" : "none";
+
+      // 渲染回饋區
+      if (qState.stage === "idle") {
+        els.quizFeedback.innerHTML = "";
+      } else if (qState.stage === "hint") {
+        // 提示階段：僅顯示該錯誤選項的引導提示，不提前標示正解
+        const hintText = qData.hints[qState.selectedKey] || "再想想這個客群當下最迫切的需求是什麼？";
+        els.quizFeedback.innerHTML = `
+          <div class="feedback-hint">
+            <h3 class="feedback-title">再想一想（引導提示）</h3>
+            <p class="feedback-text">${hintText}</p>
+          </div>
+        `;
+      } else if (qState.stage === "explained") {
+        // 完整解答階段：顯示正確選項與三個選項的完整理由
+        const isCorrect = qState.selectedKey === qData.correctKey;
+        const headingText = isCorrect
+          ? `答對了！正確答案是選項 ${qData.correctKey}`
+          : `完整解析｜正確答案是選項 ${qData.correctKey}`;
+
+        const listItems = qData.options
+          .map((opt) => `<li>${qData.explanations[opt.key]}</li>`)
+          .join("");
+
+        els.quizFeedback.innerHTML = `
+          <div class="feedback-explain">
+            <h3 class="feedback-title">${headingText}</h3>
+            <ul class="explain-list">${listItems}</ul>
+          </div>
+        `;
       }
     }
 
-    // 複製網頁代碼函式
-    function copySourceCode() {
-      const fullHtml = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-      navigator.clipboard.writeText(fullHtml).then(() => {
-        const textSpan = document.getElementById('copyBtnText');
-        const originalText = textSpan.innerText;
-        textSpan.innerText = '已成功複製程式碼！';
-        setTimeout(() => {
-          textSpan.innerText = originalText;
-        }, 2500);
-      }).catch(err => {
-        alert('複製失敗，請手動複製網頁代碼。');
+    /* ==========================================================================
+       整體介面更新（頁次、進度條、翻頁按鈕、切換頁面）
+       ========================================================================== */
+    function updateChrome() {
+      // 切換可見頁面
+      els.slides.forEach((slideEl, idx) => {
+        slideEl.classList.toggle("is-active", idx + 1 === state.currentPage);
       });
+
+      // 更新頁次與情境標示
+      const scenarioLabel = state.currentScenario
+        ? SCENARIO_CONFIG[state.currentScenario].label
+        : "請選擇情境";
+      els.pageIndicator.textContent = `第 ${state.currentPage} / 3 頁・${scenarioLabel}`;
+
+      // 更新進度條
+      const percent = (state.currentPage / 3) * 100;
+      els.progressFill.style.width = `${percent}%`;
+      els.progressTrack.setAttribute("aria-valuenow", String(state.currentPage));
+
+      // 首尾頁停用不可用的翻頁鍵（不循環翻頁）
+      els.prevBtn.disabled = state.currentPage === 1;
+      els.nextBtn.disabled =
+        state.currentPage === 3 ||
+        (state.currentPage === 1 && !state.currentScenario);
     }
+
+    function renderAll() {
+      renderSlide1();
+      renderSlide2();
+      renderSlide3();
+      updateChrome();
+    }
+
+    function goToPage(targetPage) {
+      if (targetPage < 1 || targetPage > 3) return;
+      if (targetPage > 1 && !state.currentScenario) return;
+
+      state.currentPage = targetPage;
+      renderAll();
+      // 換頁時自動捲動回視窗頂部
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    /* ==========================================================================
+       事件綁定
+       ========================================================================== */
+    // 第二頁：切換至另一情境（保留各情境獨立的測驗狀態）
+    els.switchScenarioBtn.addEventListener("click", () => {
+      if (!state.currentScenario) return;
+      state.currentScenario = state.currentScenario === "A" ? "B" : "A";
+      renderAll();
+    });
+
+    // 第三頁：送出答案
+    els.submitQuizBtn.addEventListener("click", () => {
+      const scKey = state.currentScenario;
+      if (!scKey) return;
+      const qState = state.quizState[scKey];
+      if (!qState.selectedKey || qState.stage !== "idle") return;
+
+      const correctKey = SCENARIO_CONFIG[scKey].quiz.correctKey;
+      if (qState.selectedKey === correctKey) {
+        qState.stage = "explained";
+      } else {
+        // 答錯先進入提示階段，不提前揭露正解
+        qState.stage = "hint";
+      }
+      renderSlide3();
+    });
+
+    // 第三頁：重新作答（解鎖選項並清除當次選取與回饋）
+    els.resetQuizBtn.addEventListener("click", () => {
+      const scKey = state.currentScenario;
+      if (!scKey) return;
+      state.quizState[scKey] = { selectedKey: null, stage: "idle" };
+      renderSlide3();
+    });
+
+    // 第三頁：從提示階段手動展開完整解答
+    els.revealAnswerBtn.addEventListener("click", () => {
+      const scKey = state.currentScenario;
+      if (!scKey) return;
+      state.quizState[scKey].stage = "explained";
+      renderSlide3();
+    });
+
+    // 底部翻頁按鈕
+    els.prevBtn.addEventListener("click", () => goToPage(state.currentPage - 1));
+    els.nextBtn.addEventListener("click", () => goToPage(state.currentPage + 1));
+
+    // 鍵盤左右方向鍵翻頁（首尾頁不循環）
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        if (state.currentPage > 1) {
+          event.preventDefault();
+          goToPage(state.currentPage - 1);
+        }
+      } else if (event.key === "ArrowRight") {
+        if (state.currentPage === 1 && state.currentScenario) {
+          event.preventDefault();
+          goToPage(2);
+        } else if (state.currentPage === 2) {
+          event.preventDefault();
+          goToPage(3);
+        }
+      }
+    });
+
+    // 初始化渲染
+    renderAll();
   </script>
 </body>
 </html>
